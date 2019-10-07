@@ -4,17 +4,15 @@ import ContactContext from "./contactContext";
 import contactReducer from "./contactReducer";
 import {
   ADD_CONTACT,
-  CLEAR_CURRENT,
-  CLEAR_FILTER,
   DELETE_CONTACT,
-  FILTER_CONTACTS,
-  REMOVE_ALERT,
-  SET_ALERT,
   SET_CURRENT,
-  UPDATE_CONTACT
+  CLEAR_CURRENT,
+  UPDATE_CONTACT,
+  FILTER_CONTACTS,
+  CLEAR_FILTER
 } from "../type";
 
-export default function ContactState(props) {
+const ContactState = props => {
   const initialState = {
     contacts: [
       {
@@ -76,13 +74,14 @@ export default function ContactState(props) {
     <ContactContext.Provider
       value={{
         contacts: state.contacts,
+        current: state.current,
+        filtered: state.filtered,
+        error: state.error,
         addContact,
         deleteContact,
-        current: state.current,
         setCurrent,
         clearCurrent,
         updateContact,
-        filtered: state.filtered,
         filterContacts,
         clearFilter
       }}
@@ -90,4 +89,6 @@ export default function ContactState(props) {
       {props.children}
     </ContactContext.Provider>
   );
-}
+};
+
+export default ContactState;

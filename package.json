@@ -1,7 +1,7 @@
 {
   "name": "contact-keeper",
   "version": "1.0.0",
-  "description": "Contact manager App",
+  "description": "Contact keeper",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,7 +11,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
-  "author": "",
+  "author": "Dumnezeu1",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
