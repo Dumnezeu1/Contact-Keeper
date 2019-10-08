@@ -7,19 +7,18 @@ const Register = props => {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { register, error, clearErrors, isAuthenticated } = authContext;
+  const { register, error, clearErrors, succes } = authContext;
 
   useEffect(() => {
-    if (isAuthenticated) {
-      props.history.push("/");
-    }
-
     if (error === "User already exists") {
       setAlert(error, "danger");
       clearErrors();
     }
+    if (succes) {
+      props.history.push("/login");
+    }
     // eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+  }, [error, props.history, succes]);
 
   const [user, setUser] = useState({
     name: "",
@@ -34,10 +33,8 @@ const Register = props => {
 
   const onSubmit = e => {
     e.preventDefault();
-    if (name === "" || email === "" || password === "") {
-      setAlert("Please enter all fields", "danger");
-    } else if (password !== password2) {
-      setAlert("Passwords do not match", "danger");
+    if (password !== password2) {
+      setAlert("Passwords not matching", "danger");
     } else {
       register({
         name,
@@ -68,9 +65,11 @@ const Register = props => {
           <input
             type="email"
             name="email"
-            value={email}
+            value={email.toLowerCase()}
             onChange={onChange}
             required
+            pattern="[a-z]{1}[a-z0-9.-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            title="An email should start with a letter and contain @"
           />
         </div>
         <div className="form-group">
@@ -81,7 +80,8 @@ const Register = props => {
             value={password}
             onChange={onChange}
             required
-            minLength="6"
+            pattern="[a-z0-9.-]{8,}"
+            title="Must contain just numbers and letters"
           />
         </div>
         <div className="form-group">
@@ -92,7 +92,8 @@ const Register = props => {
             value={password2}
             onChange={onChange}
             required
-            minLength="6"
+            pattern="[a-z0-9.-]{8,}"
+            title="Must contain just numbers and letters"
           />
         </div>
         <input

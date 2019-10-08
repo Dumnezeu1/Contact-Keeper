@@ -6,7 +6,8 @@ import {
   LOGIN_SUCCES,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  CLEAR_SUCCES
 } from "../type";
 
 export default (state, action) => {
@@ -16,16 +17,30 @@ export default (state, action) => {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: action.payload
+        user: action.payload,
+        succes: false
       };
     case REGISTER_SUCCES:
+      return {
+        ...state,
+        ...action.payload,
+        isAuthenticated: false,
+        loading: false,
+        succes: true
+      };
     case LOGIN_SUCCES:
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
         ...action.payload,
         isAuthenticated: true,
-        loading: false
+        loading: false,
+        succes: false
+      };
+    case CLEAR_SUCCES:
+      return {
+        ...state,
+        succes: false
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
@@ -38,7 +53,8 @@ export default (state, action) => {
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: action.payload
+        error: action.payload,
+        succes: false
       };
     case CLEAR_ERRORS:
       return {

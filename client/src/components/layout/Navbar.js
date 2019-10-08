@@ -18,7 +18,9 @@ export default function Navbar({ title, icon }) {
 
   const authLinks = (
     <>
-      <li>Hello {user && user.name}</li>
+      <li>
+        <Link to="/">Hello {user && user.name}</Link>
+      </li>
       <li>
         <a onClick={onLogout} href="#!">
           <i className="fas fa-sign-out-alt"></i>
@@ -42,9 +44,17 @@ export default function Navbar({ title, icon }) {
   return (
     <div className="navbar bg-primary">
       <h1>
-        <i className={icon} /> {title}
+        <Link to="/">
+          {" "}
+          <i className={icon} /> {title}
+        </Link>
       </h1>
-      <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
+      <ul>
+        {isAuthenticated ? authLinks : guestLinks}
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+      </ul>
     </div>
   );
 }

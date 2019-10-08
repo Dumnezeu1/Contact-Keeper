@@ -11,7 +11,8 @@ import {
   LOGIN_SUCCES,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  CLEAR_SUCCES
 } from "../type";
 
 const AuthState = props => {
@@ -20,7 +21,8 @@ const AuthState = props => {
     isAuthenticated: null,
     loading: true,
     user: null,
-    error: null
+    error: null,
+    succes: false
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -59,7 +61,7 @@ const AuthState = props => {
         payload: res.data
       });
 
-      loadUser();
+      // loadUser();
     } catch (err) {
       dispatch({
         type: REGISTER_FAIL,
@@ -99,6 +101,8 @@ const AuthState = props => {
   // Clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
+  const clearSucces = () => dispatch({ type: CLEAR_SUCCES });
+
   return (
     <AuthContext.Provider
       value={{
@@ -107,11 +111,13 @@ const AuthState = props => {
         loading: state.loading,
         user: state.user,
         error: state.error,
+        succes: state.succes,
         register,
         loadUser,
         login,
         logout,
-        clearErrors
+        clearErrors,
+        clearSucces
       }}
     >
       {props.children}

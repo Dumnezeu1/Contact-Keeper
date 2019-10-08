@@ -7,19 +7,31 @@ const Login = props => {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { login, error, clearErrors, isAuthenticated } = authContext;
+  const {
+    login,
+    error,
+    clearErrors,
+    isAuthenticated,
+    clearSucces,
+    succes
+  } = authContext;
 
   useEffect(() => {
     if (isAuthenticated) {
       props.history.push("/");
     }
 
-    if (error === "Invalid Credentials") {
+    if (succes) {
+      clearSucces();
+    }
+
+    if (error === "Password or User not found!") {
+      console.log(error);
       setAlert(error, "danger");
       clearErrors();
     }
     // eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+  }, [error, isAuthenticated, props.history, succes]);
 
   const [user, setUser] = useState({
     email: "",
@@ -32,9 +44,7 @@ const Login = props => {
 
   const onSubmit = e => {
     e.preventDefault();
-    if (email === "" || password === "") {
-      setAlert("Please fill in all fields", "danger");
-    } else {
+    if (email !== "" || password !== "") {
       login({
         email,
         password
@@ -53,9 +63,11 @@ const Login = props => {
           <input
             type="email"
             name="email"
-            value={email}
+            value={email.toLowerCase()}
             onChange={onChange}
             required
+            pattern="[a-z]{1}[a-z0-9.-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            title="An email should start with a letter and contain @"
           />
         </div>
         <div className="form-group">
@@ -66,6 +78,8 @@ const Login = props => {
             value={password}
             onChange={onChange}
             required
+            pattern="[a-z0-9.-]{8,}"
+            title="Must contain just numbers and letters"
           />
         </div>
         <input

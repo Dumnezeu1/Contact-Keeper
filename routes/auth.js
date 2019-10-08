@@ -39,13 +39,13 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ msg: "Invalid Credentials" });
+        return res.status(400).json({ msg: "Password or User not found!" });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        return res.status(400).json({ msg: "Invalid Credentials" });
+        return res.status(400).json({ msg: "Password or User not found!" });
       }
 
       const payload = {
@@ -58,7 +58,7 @@ router.post(
         payload,
         config.get("jwtSecret"),
         {
-          expiresIn: 3600000
+          expiresIn: 3600
         },
         (err, token) => {
           if (err) throw err;
