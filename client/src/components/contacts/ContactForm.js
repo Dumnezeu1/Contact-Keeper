@@ -14,7 +14,7 @@ const ContactForm = () => {
         name: "",
         email: "",
         phone: "",
-        type: "personal"
+        type: "personal",
       });
     }
   }, [contactContext, current]);
@@ -23,15 +23,15 @@ const ContactForm = () => {
     name: "",
     email: "",
     phone: "",
-    type: "personal"
+    type: "personal",
   });
 
   const { name, email, phone, type } = contact;
 
-  const onChange = e =>
+  const onChange = (e) =>
     setContact({ ...contact, [e.target.name]: e.target.value });
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     if (current === null) {
       addContact(contact);
@@ -76,6 +76,7 @@ const ContactForm = () => {
         onChange={onChange}
         pattern="[0-9]{10}"
         required
+        maxLength="10"
         title="A phone number should have 10 numbers"
       />
       <h5>Contact Type</h5>
